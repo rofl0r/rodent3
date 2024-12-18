@@ -1192,7 +1192,7 @@ void cEngine::Slowdown() {
 
 #ifndef USE_THREADS
     if ((!(Glob.nodes & 2047))
-    && !Glob.is_testing
+    && !Glob.isTesting
     &&   mRootDepth > 1) CheckTimeout();
 #endif
 

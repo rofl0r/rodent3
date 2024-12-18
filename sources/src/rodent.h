@@ -70,12 +70,13 @@ static constexpr int max_tt_size_mb = 4096; // TODO: Fruit 3.2.1 uses 16384 on 6
 
 //#define NO_THREADS
 
+#define MAX_THREADS 48
+
 #ifndef NO_THREADS
     #include <thread>
     #ifndef USE_THREADS
        #define USE_THREADS
     #endif
-    #define MAX_THREADS 48
 #else
     #undef USE_THREADS
 #endif
