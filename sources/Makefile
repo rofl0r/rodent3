@@ -14,17 +14,26 @@ DATADIRPERSONALITIES = $(DATADIR)/personalities
 # Define the CPP compiler
 CXX = g++
 
+OPT = -O3 -fno-rtti
+LDOPT = -s
+FEATURES = -DUSEGEN -DUSE_THREADS
+
+# you can override OPT, LDOPT and FEATURES in config.mak, if you don't want
+# your build stripped - e.g. for debugging, or want to turn threads off.
+-include config.mak
+
+
 # Define features
 # Other options are -DBOOKGEN -DNO_THREADS
-CFG = -DNDEBUG -DUSEGEN -DUSE_THREADS -DBOOKSPATH=$(DATADIRBOOKS) -DPERSONALITIESPATH=$(DATADIRPERSONALITIES)
+CFG = -DNDEBUG $(FEATURES) -DBOOKSPATH=$(DATADIRBOOKS) -DPERSONALITIESPATH=$(DATADIRPERSONALITIES)
 CFG1 = -DUSEGEN -DUSE_THREADS -DBOOKSPATH=$(DATADIRBOOKS) -DPERSONALITIESPATH=$(DATADIRPERSONALITIES)
 
 # Define compiler flags
-CXXFLAGS = -g -std=c++14 -Wall -Wno-unknown-pragmas -O3 -fno-rtti -pthread $(CFG)
+CXXFLAGS = -g -std=c++14 -Wall -Wno-unknown-pragmas $(OPT) -pthread $(CFG)
 CXX1FLAGS = -g -std=c++14 -Wall -Wno-unknown-pragmas -pthread $(CFG1)
 
 # Define linker options
-LDFLAGS = -s -Wl,--no-as-needed,--gc-sections
+LDFLAGS = $(LDOPT) -Wl,--no-as-needed,--gc-sections -Wl,-z,stack-size=8097152
 LD1FLAGS = -lm
 
 # Command line switches
