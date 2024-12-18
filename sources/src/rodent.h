@@ -42,6 +42,10 @@ If not, see <http://www.gnu.org/licenses/>.
 #include <cstdint>
 #include <cinttypes>
 
+#if !defined(_WIN32) && !defined(_WIN64)
+#include <unistd.h> /* for access() */
+#endif
+
 //#define USE_TUNING
 
 using U64 = uint64_t;
@@ -994,6 +998,8 @@ void ReadThreadNumber(const char *fileName);
 void SetPieceValue(int pc, int val, int slot);
 void UciLoop();
 int my_random(int n);
+char *getPath(char *buf, unsigned buflen,
+              const char *fn, const char *env_override, const char* builtindir);
 
 extern const int tp_value[7];
 extern const int ph_value[7];

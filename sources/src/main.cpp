@@ -103,8 +103,8 @@ if (Glob.is_noisy) {
     printf("info string opening books path is '%ls' (%s)\n", _BOOKSPATH, ChDir(_BOOKSPATH) ? "exists" : "doesn't exist");
     printf("info string personalities path is '%ls' (%s)\n", _PERSONALITIESPATH, ChDir(_PERSONALITIESPATH) ? "exists" : "doesn't exist");
 #else
-    printf("info string opening books path is '%s' (%s)\n", _BOOKSPATH, ChDir(_BOOKSPATH) ? "exists" : "doesn't exist");
-    printf("info string personalities path is '%s' (%s)\n", _PERSONALITIESPATH, ChDir(_PERSONALITIESPATH) ? "exists" : "doesn't exist");
+    printf("info string opening books path is '%s' (%s)\n", _BOOKSPATH, access(_BOOKSPATH, R_OK) == 0 ? "exists" : "doesn't exist");
+    printf("info string personalities path is '%s' (%s)\n", _PERSONALITIESPATH, access(_PERSONALITIESPATH, R_OK) == 0 ? "exists" : "doesn't exist");
 #endif
 }
 

@@ -340,12 +340,8 @@ U64 sBook::GetPolyglotKey(POS *p) {
 void sBook::OpenPolyglot() {
 
     ClosePolyglot();
-
-    if (!isabsolute(bookName))                  // if known locations don't exist we want to load only from absolute paths
-        if (!ChDirEnv("RIIIBOOKS"))             // try `RIIIBOOKS` env var first (26/08/17: linux only)
-            if (!ChDir(_BOOKSPATH)) return;     // next built-in path
-
-    bookFile = fopen(bookName, "rb");
+    char path[1024];
+    bookFile = fopen(getPath(path, sizeof(path), bookName, "RIIIBOOKS", _BOOKSPATH), "rb");
 
     if (bookFile == NULL) return;
 

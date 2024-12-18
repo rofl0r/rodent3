@@ -437,11 +437,9 @@ void ReadThreadNumber(const char * fileName) {
 void ReadPersonality(const char *fileName) {
 
     FILE *personalityFile = NULL;
-    if (isabsolute(fileName)                    // if known locations don't exist we want to load only from absolute paths
-        || ChDirEnv("RIIIPERSONALITIES")        // try `RIIIPERSONALITIES` env var first (26/08/17: linux only)
-            || ChDir(_PERSONALITIESPATH))       // next built-in path
-                personalityFile = fopen(fileName, "r");
-
+    char path[1024];
+    (void) getPath(path, sizeof(path), fileName, "RIIIPERSONALITIES", _PERSONALITIESPATH);
+    personalityFile = fopen(path, "r");
     if (Glob.is_noisy)
         printf("info string reading personality '%s' (%s)\n", fileName, personalityFile == NULL ? "failure" : "success");
 

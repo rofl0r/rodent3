@@ -28,6 +28,21 @@ If not, see <http://www.gnu.org/licenses/>.
 
 #include "rodent.h"
 
+char *getPath(char *buf, unsigned buflen,
+              const char *fileName, const char *env_override, const char* builtindir) {
+    if (isabsolute(fileName)) {
+        snprintf(buf, buflen, "%s", fileName);
+    } else if(env_override && getenv(env_override)) {
+        // try `RIIIPERSONALITIES` env var first (26/08/17: linux only)
+        snprintf(buf, buflen, "%s/%s", getenv(env_override), fileName);
+    } else if(builtindir) {
+        snprintf(buf, buflen, "%s/%s", builtindir, fileName);
+    } else {
+        snprintf(buf, buflen, "%s", fileName);
+    }
+    return buf;
+}
+
 bool InputAvailable() {
 
 #if defined(_WIN32) || defined(_WIN64)
