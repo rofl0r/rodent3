@@ -606,6 +606,7 @@ const char* const paramNames[N_OF_VAL] = {
 
 class cParam {
   public:
+	char personality_file[80];
 	int wait[N_OF_VAL];
     int values[N_OF_VAL]; // evaluation parameters
     int max_val[N_OF_VAL];

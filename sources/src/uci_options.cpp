@@ -49,7 +49,7 @@ void PrintUciOptions() {
 
     if (Glob.use_personality_files) {
         if (pers_aliases.count == 0 || Glob.show_pers_file)
-            printf("option name PersonalityFile type string default default.txt\n");
+            printf("option name PersonalityFile type string default %s\n", Par.personality_file);
         if (pers_aliases.count != 0) {
             printf("option name Personality type combo default ---"); // `---` in case we want PersonalityFile
             for (int i = 0; i < pers_aliases.count; i++)
@@ -441,12 +441,15 @@ void ReadPersonality(const char *fileName) {
     (void) getPath(path, sizeof(path), fileName, "RIIIPERSONALITIES", _PERSONALITIESPATH);
     personalityFile = fopen(path, "r");
     if (Glob.is_noisy)
-        printf("info string reading personality '%s' (%s)\n", fileName, personalityFile == NULL ? "failure" : "success");
+        printf("info string reading personality '%s' (%s)\n", path, personalityFile == NULL ? "failure" : "success");
 
     // Exit if this personality file doesn't exist
 
     if (personalityFile == NULL)
         return;
+    const char *p = strrchr(fileName, '/');
+    if(!p) p = fileName; else ++p;
+    strcpy(Par.personality_file, p);
 
     // It is possible that user will attempt to load a personality of older Rodent version.
     // There is nothing wrong with that, except that there will be some parameters missing.
